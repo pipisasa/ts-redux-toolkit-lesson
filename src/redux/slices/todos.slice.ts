@@ -1,5 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { Todo } from "../../types/todo";
+import { CreateTodoDto, Todo } from "../../types/todo";
 import { $api } from "../../utils/api";
 
 interface TodoState {
@@ -49,7 +49,7 @@ export const updateTodo = createAsyncThunk(
 
 export const createTodo = createAsyncThunk(
   'todos/createTodo',
-  async (todo: Todo) => {
+  async (todo: CreateTodoDto) => {
     const { data } = await $api.post<Todo>('/todos', todo);
     return data;
   }

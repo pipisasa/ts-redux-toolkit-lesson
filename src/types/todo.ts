@@ -9,3 +9,8 @@ export type Todo = {
   title: string,
   status: TodoStatus,
 }
+
+export type CreateTodoDto = {
+  title: string,
+  status: TodoStatus,
+}

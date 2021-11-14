@@ -8,7 +8,7 @@ const TodosList: React.FC = () => {
   const { loading, error } = useAppSelector(state => state.todos);
 
 
-  if (loading) {
+  if (loading && todos.length === 0) {
     return <div>Loading...</div>
   }
 

@@ -1,27 +1,29 @@
 import React from 'react'
 import { Formik, FormikHelpers } from 'formik'
 import  * as Yup from 'yup';
-import { useAppDispatch } from '../redux/hooks';
-import { createTodo } from '../redux/slices/todos.slice';
-
-const initialValues = {
-  title: '',
-  status: '',
-}
+import { CreateTodoDto, Todo, TodoStatus } from '../types/todo';
 
 const TodoSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
   status: Yup.string().required('Status is required').oneOf(['TODO', 'DOING', 'DONE']),
 });
 
-const TodoForm: React.FC = () => {
+export type TodoFormOnSubmit = (values: CreateTodoDto, formikHelpers: FormikHelpers<CreateTodoDto>) => void;
 
-  const dispatch = useAppDispatch();
+type Props = {
+  onSubmit: TodoFormOnSubmit,
+  data?: Todo,
+}
 
-  const onSubmit = (values: any, helpers: FormikHelpers<typeof initialValues>) => {
-    dispatch(createTodo(values));
-    helpers.resetForm()
-  };
+const TodoForm: React.FC<Props> = ({
+  onSubmit,
+  data,
+}) => {
+
+  const initialValues = {
+    title:  data?.title || '',
+    status: data?.status || TodoStatus.TODO,
+  }
 
   return (
     <div>
@@ -68,7 +70,7 @@ const TodoForm: React.FC = () => {
             </div>
 
             <button disabled={isSubmitting} type="submit">
-              Add Todo
+              Submit
             </button>
           </form>
         )}
